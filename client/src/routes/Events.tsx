@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
-import { EventList, EventListItem } from '../components';
+import { List, EventListItem } from '../components';
 import { Event } from '../types';
 
 const Events: FC = () => {
@@ -13,11 +13,11 @@ const Events: FC = () => {
   }, []);
 
   return (
-    <EventList>
+    <List>
       {events.map((event) => (
         <EventListItem key={event.id} event={event} />
       ))}
-    </EventList>
+    </List>
   );
 };
 

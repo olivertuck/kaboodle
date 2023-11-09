@@ -1,11 +1,11 @@
 import { FC, ReactNode } from 'react';
 
-type EventListProps = {
+type ListProps = {
   children: ReactNode;
 };
 
-const EventList: FC<EventListProps> = ({ children }) => (
+const List: FC<ListProps> = ({ children }) => (
   <ul className="grid grid-cols-4 gap-4">{children}</ul>
 );
 
-export default EventList;
+export default List;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Event } from '../types';
-import { Button, CreateTicketForm } from '../components';
+import { Button, CreateTicketForm, List, TicketListItem } from '../components';
 
 const Event: FC = () => {
   const { id } = useParams();
@@ -27,7 +27,11 @@ const Event: FC = () => {
         <p>{`Date: ${event.date}`}</p>
         <p>{`Description: ${event.description}`}</p>
         {event.tickets.length ? (
-          <div>Tickets</div>
+          <List>
+            {event.tickets.map((ticket) => (
+              <TicketListItem key={ticket.id} ticket={ticket} />
+            ))}
+          </List>
         ) : (
           <p>No Tickets Available</p>
         )}
