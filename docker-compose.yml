@@ -6,6 +6,11 @@ services:
       - '3000:1234'
     depends_on:
       - api
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   api:
     build: api
     ports:
