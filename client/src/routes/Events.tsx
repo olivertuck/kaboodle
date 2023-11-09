@@ -1,17 +1,23 @@
 import axios from 'axios';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { EventList, EventListItem } from '../components';
+import { Event } from '../types';
 
 const Events: FC = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+
   useEffect(() => {
     axios.get('http://localhost:5000/events').then(({ data }) => {
-      console.log('DATA: ', data);
+      setEvents(data);
     });
   }, []);
 
   return (
-    <ul>
-      <li>Event</li>
-    </ul>
+    <EventList>
+      {events.map((event) => (
+        <EventListItem key={event.id} event={event} />
+      ))}
+    </EventList>
   );
 };
 

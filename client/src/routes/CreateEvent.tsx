@@ -1,8 +1,12 @@
 import { ChangeEventHandler, FC, FormEventHandler, useState } from 'react';
-import { Button, Input } from '../components';
+import { Button, Form, FormError, Input } from '../components';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Event } from '../types';
 
-const defaultValues = {
+type NewEvent = Omit<Event, 'id'>;
+
+const defaultValues: NewEvent = {
   name: '',
   date: '',
   description: '',
@@ -10,9 +14,10 @@ const defaultValues = {
 };
 
 const CreateEvent: FC = () => {
-  const [values, setValues] = useState(defaultValues);
+  const [values, setValues] = useState<NewEvent>(defaultValues);
   const [isCreating, setIsCreating] = useState(false);
   const [isError, setIsError] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setValues((prevState) => ({
@@ -26,13 +31,19 @@ const CreateEvent: FC = () => {
     setIsCreating(true);
 
     try {
-      await axios.post('http://localhost:5000/events', values);
+      const { data: event } = await axios.post(
+        'http://localhost:5000/events',
+        values
+      );
 
       setValues(defaultValues);
 
+      // If failed on the previous run, remove the error
       if (isError) {
         setIsError(false);
       }
+
+      navigate(`/events/${event.id}`);
     } catch (error) {
       setIsError(true);
     } finally {
@@ -41,7 +52,7 @@ const CreateEvent: FC = () => {
   };
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Input
         name="name"
         placeholder="Name"
@@ -60,11 +71,9 @@ const CreateEvent: FC = () => {
         onChange={handleChange}
         value={values.description}
       />
-      <Button>{isCreating ? 'Creating...' : 'Create Event'}</Button>
-      {isError && (
-        <p className="text-red-600">There was an error creating the event</p>
-      )}
-    </form>
+      <Button>{isCreating ? 'Creating Event...' : 'Create Event'}</Button>
+      {isError && <FormError>There was an error creating the event</FormError>}
+    </Form>
   );
 };
 
