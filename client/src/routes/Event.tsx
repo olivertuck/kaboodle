@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Event } from '../types';
-import { Button, CreateTicketForm, List, TicketListItem } from '../components';
+import { Event as EventType } from '../types';
+import { CreateTicketForm, List, TicketListItem } from '../components';
 
 const Event: FC = () => {
   const { id } = useParams();
-  const [event, setEvent] = useState<Event | null>(null);
+  const [event, setEvent] = useState<EventType | null>(null);
 
   useEffect(() => {
     if (id) {
