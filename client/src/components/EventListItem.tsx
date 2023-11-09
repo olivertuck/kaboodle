@@ -12,7 +12,9 @@ const EventListItem: FC<EventListItemProps> = ({ event }) => (
       <h2 className="font-medium text-xl">{event.name}</h2>
       <p>{`Date: ${event.date}`}</p>
       <p>{`Description: ${event.description}`}</p>
-      <p>{`${event.tickets.length} Tickets Available`}</p>
+      <p>{`${event.tickets.length} Ticket${
+        event.tickets.length !== 1 ? 's' : ''
+      } Available`}</p>
     </Link>
   </li>
 );
